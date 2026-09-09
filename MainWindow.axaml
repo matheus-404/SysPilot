@@ -1,0 +1,225 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:SysPilot.Models"
+        xmlns:converters="clr-namespace:SysPilot.Converters"
+        xmlns:local="clr-namespace:SysPilot"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="SysPilot.MainWindow"
+        x:CompileBindings="True"
+        x:DataType="local:MainWindow"
+        Title="SysPilot"
+        Width="820" Height="670"
+        MinWidth="820" MinHeight="670"
+        Background="#202020"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="32"
+        WindowDecorations="BorderOnly"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <converters:SvgAssetValueConverter x:Key="SvgConverter"/>
+
+        <!-- Neutral Dark Palette -->
+        <SolidColorBrush x:Key="SysPilotCardBackground" Color="#2D2D2D"/>
+        <SolidColorBrush x:Key="SysPilotCardBorder" Color="#383838"/>
+        <SolidColorBrush x:Key="SysPilotMutedText" Color="#A0A0A0"/>
+
+        <!-- Interactive Card Template -->
+        <DataTemplate x:Key="AppCardTemplate" x:DataType="models:AppItem">
+            <Button Classes="appCard"
+                    Click="LaunchButton_Click"
+                    Tag="{Binding}"
+                    ToolTip.Tip="{Binding Name}">
+                <Grid RowDefinitions="Auto,Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border Grid.Row="0" Width="52" Height="52" CornerRadius="26" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" ClipToBounds="True" Margin="0,0,0,10">
+                        <Image Source="{Binding IconPath, Converter={StaticResource SvgConverter}}" Width="32" Height="32" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Grid.Row="1" Text="{Binding Name}" HorizontalAlignment="Center" TextAlignment="Center" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis"/>
+                </Grid>
+            </Button>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Button.appCard">
+            <Setter Property="Background" Value="{StaticResource SysPilotCardBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SysPilotCardBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Height" Value="160"/>
+            <Setter Property="Margin" Value="0,0,16,16"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.appCard:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#383838"/>
+            <Setter Property="BorderBrush" Value="#454545"/>
+        </Style>
+        <Style Selector="Button.appCard:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#252525"/>
+        </Style>
+
+        <Style Selector="Button.settingsButton">
+            <Setter Property="Background" Value="{StaticResource SysPilotCardBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource SysPilotCardBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.settingsButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#383838"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.settingsButton:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#252525"/>
+        </Style>
+
+        <Style Selector="ListBoxItem.navItem">
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Margin" Value="8,2,8,2"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+        </Style>
+        <Style Selector="ListBoxItem.navItem:pointerover">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="ListBoxItem.navItem:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#282828"/>
+        </Style>
+        <Style Selector="ListBoxItem.navItem:selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="ListBoxItem.navItem:selected /template/ ContentPresenter">
+            <Setter Property="Background" Value="#333333"/>
+        </Style>
+
+        <Style Selector="Button.captionBtn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+        <Style Selector="Button.captionBtn:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.captionBtn:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#444444"/>
+        </Style>
+        <Style Selector="Button.captionBtnClose:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#C42B1C"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.captionBtnClose:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#B22415"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid ColumnDefinitions="220,*">
+        <!-- Navigation Pane -->
+        <Grid Grid.Column="0" Background="#181818" RowDefinitions="32,64,*,Auto">
+            <Border Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+
+            <TextBlock Grid.Row="1" Text="SysPilot" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="20,0,0,0"/>
+
+            <ListBox Grid.Row="2" x:Name="NavList" Background="Transparent" BorderThickness="0" SelectionChanged="NavList_SelectionChanged">
+                <ListBoxItem Classes="navItem" Tag="SystemTweaks">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Navigation Bar Icons/Wrench.svg', Converter={StaticResource SvgConverter}}" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="System Tweaks" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem Classes="navItem" Tag="GpuDisplay">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Navigation Bar Icons/Monitor.svg', Converter={StaticResource SvgConverter}}" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="GPU &amp; Display" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem Classes="navItem" Tag="CoreUtilities">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Navigation Bar Icons/Toolbox.svg', Converter={StaticResource SvgConverter}}" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Core Utilities" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem Classes="navItem" Tag="Apps">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Navigation Bar Icons/Apps.svg', Converter={StaticResource SvgConverter}}" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Apps" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListBoxItem>
+            </ListBox>
+
+            <ListBox Grid.Row="3" x:Name="SettingsList" Background="Transparent" BorderThickness="0" Margin="0,0,0,12" SelectionChanged="SettingsList_SelectionChanged">
+                <ListBoxItem Classes="navItem" Tag="Settings">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Navigation Bar Icons/Gear.svg', Converter={StaticResource SvgConverter}}" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Settings" FontSize="14" FontWeight="Medium" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ListBoxItem>
+            </ListBox>
+        </Grid>
+
+        <!-- Main Content Region -->
+        <Grid Grid.Column="1" RowDefinitions="32,64,*">
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                <Border Grid.Column="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Classes="captionBtn" Click="MinimizeButton_Click" ToolTip.Tip="Minimize">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Minimize.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
+                    </Button>
+                    <Button Classes="captionBtn" Click="MaximizeButton_Click" ToolTip.Tip="Maximize">
+                        <Image x:Name="MaximizeIconImage" Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Maximize.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
+                    </Button>
+                    <Button Classes="captionBtn captionBtnClose" Click="CloseButton_Click" ToolTip.Tip="Close">
+                        <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Close.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="HeaderText" Grid.Row="1" Text="System Tweaks" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="32,0,32,0"/>
+
+            <ScrollViewer x:Name="CategoryScrollViewer" Grid.Row="2" Margin="32,16,32,32" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="CardsControl" ItemTemplate="{StaticResource AppCardTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <ScrollViewer x:Name="SettingsPanel" Grid.Row="2" Margin="32,16,32,32" VerticalScrollBarVisibility="Auto" IsVisible="False">
+                <StackPanel Spacing="12" MaxWidth="360" HorizontalAlignment="Left">
+                    <Button Classes="settingsButton" Click="OpenFolderButton_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Settings Icons/Folder.svg', Converter={StaticResource SvgConverter}}" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Open SysPilot Folder" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="settingsButton" Click="CheckForUpdatesButton_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Settings Icons/Update.svg', Converter={StaticResource SvgConverter}}" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Check for updates" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

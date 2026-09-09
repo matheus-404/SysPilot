@@ -1,0 +1,244 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using SysPilot.Converters;
+using SysPilot.Models;
+using SysPilot.Services;
+
+namespace SysPilot
+{
+    public partial class MainWindow : Window
+    {
+        private readonly List<AppCategory> _categories;
+        private readonly AppDownloadService _downloadService = new();
+        private readonly AppLaunchService _launchService;
+
+        private readonly IImage _maximizeIconAsset;
+        private readonly IImage _restoreIconAsset;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            _categories = CatalogData.GetCategories();
+
+            _launchService = new AppLaunchService();
+            _launchService.LaunchFailed += (item, ex) => ShowMessageAsync($"Couldn't launch \"{item.Name}\"", ex.Message);
+
+            // Pre-load SVG assets for caption controls to eliminate lag on window resize
+            _maximizeIconAsset = (IImage)SvgAssetValueConverter.Instance.Convert("avares://SysPilot/Assets/Icons/Window Controls Icons/Maximize.svg", typeof(IImage), null, System.Globalization.CultureInfo.InvariantCulture)!;
+            _restoreIconAsset = (IImage)SvgAssetValueConverter.Instance.Convert("avares://SysPilot/Assets/Icons/Window Controls Icons/Restore.svg", typeof(IImage), null, System.Globalization.CultureInfo.InvariantCulture)!;
+
+            PropertyChanged += (sender, e) =>
+            {
+                if (e.Property == WindowStateProperty)
+                {
+                    UpdateMaximizeIcon();
+                }
+            };
+
+            if (NavList.Items.Count > 0 && NavList.Items[0] is ListBoxItem firstItem)
+            {
+                NavList.SelectedItem = firstItem;
+            }
+        }
+
+        #region Custom Title Bar & Caption Controls
+
+        private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                if (e.ClickCount == 2)
+                    ToggleMaximize();
+                else
+                    BeginMoveDrag(e);
+            }
+        }
+
+        private void MinimizeButton_Click(object? sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+        private void MaximizeButton_Click(object? sender, RoutedEventArgs e) => ToggleMaximize();
+        private void CloseButton_Click(object? sender, RoutedEventArgs e) => Close();
+
+        private void ToggleMaximize()
+        {
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        }
+
+        private void UpdateMaximizeIcon()
+        {
+            MaximizeIconImage.Source = WindowState == WindowState.Maximized ? _restoreIconAsset : _maximizeIconAsset;
+        }
+
+        #endregion
+
+        private void NavList_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (NavList.SelectedItem is ListBoxItem item && item.Tag is string tag)
+            {
+                SettingsList.SelectedItem = null;
+                ShowCategory(tag);
+            }
+        }
+
+        private void SettingsList_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (SettingsList.SelectedItem is ListBoxItem)
+            {
+                NavList.SelectedItem = null;
+                ShowSettings();
+            }
+        }
+
+        private void ShowCategory(string tag)
+        {
+            var category = _categories.FirstOrDefault(c => c.Tag == tag);
+            if (category is null) return;
+
+            HeaderText.Text = category.Name;
+            CardsControl.ItemsSource = category.Items;
+            CategoryScrollViewer.IsVisible = true;
+            SettingsPanel.IsVisible = false;
+        }
+
+        private void ShowSettings()
+        {
+            HeaderText.Text = "Settings";
+            CardsControl.ItemsSource = null;
+            CategoryScrollViewer.IsVisible = false;
+            SettingsPanel.IsVisible = true;
+        }
+
+        private void OpenFolderButton_Click(object? sender, RoutedEventArgs e)
+        {
+            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var sysPilotDir = Path.Combine(localAppData, "SysPilot");
+
+            if (!Directory.Exists(sysPilotDir))
+            {
+                Directory.CreateDirectory(sysPilotDir);
+            }
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = sysPilotDir,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                _ = ShowMessageAsync("Error", $"Could not open folder: {ex.Message}");
+            }
+        }
+
+        private void CheckForUpdatesButton_Click(object? sender, RoutedEventArgs e)
+        {
+            // Update check implementation
+        }
+
+        private async void LaunchButton_Click(object? sender, RoutedEventArgs e)
+        {
+            if (sender is not Control control || control.Tag is not AppItem item)
+                return;
+
+            var installDir = AppFileSystem.GetInstallDirectory(item);
+
+            if (!string.IsNullOrWhiteSpace(item.ExecutablePath) && !File.Exists(item.ExecutablePath))
+            {
+                item.ExecutablePath = string.Empty;
+            }
+
+            if (!string.IsNullOrWhiteSpace(item.ExecutablePath))
+            {
+                var defaultDownloadPath = AppFileSystem.GetDefaultInstallerPath(installDir, item);
+
+                if (item.ExecutablePath.Equals(defaultDownloadPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    var updatedPath = AppFileSystem.FindExecutable(installDir, item);
+                    if (!string.IsNullOrWhiteSpace(updatedPath) && updatedPath != item.ExecutablePath)
+                    {
+                        item.ExecutablePath = updatedPath;
+                    }
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(item.ExecutablePath))
+            {
+                if (string.IsNullOrWhiteSpace(item.DownloadUrl))
+                {
+                    await ShowMessageAsync(
+                        $"No path set for \"{item.Name}\"",
+                        "Set its ExecutablePath in CatalogData.cs before launching.");
+                    return;
+                }
+
+                var resolvedPath = await TryDownloadAsync(item);
+                if (resolvedPath is null)
+                    return;
+
+                item.ExecutablePath = resolvedPath;
+            }
+
+            await _launchService.LaunchAsync(item, installDir);
+        }
+
+        private async Task<string?> TryDownloadAsync(AppItem item)
+        {
+            try
+            {
+                var result = await _downloadService.EnsureDownloadedAsync(item);
+
+                if (result.WasAlreadyInProgress)
+                    return null;
+
+                if (result.NoExecutableWasFound)
+                {
+                    var installDir = AppFileSystem.GetInstallDirectory(item);
+                    await ShowMessageAsync(
+                        $"Downloaded \"{item.Name}\"",
+                        $"Saved to {installDir}, but no matching executable was found there.");
+                    return null;
+                }
+
+                return result.ExecutablePath;
+            }
+            catch (DownloadFailedException ex)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = item.DownloadUrl,
+                    UseShellExecute = true
+                });
+
+                if (ex.IsBotProtection)
+                {
+                    await ShowMessageAsync(
+                        $"Manual Action Required for \"{item.Name}\"",
+                        $"This provider uses automated bot-detection that prevents direct downloading from the app.\n\nThe official download page has been opened in your browser. Please save the file directly into:\n\n{AppFileSystem.GetInstallDirectory(item)}");
+                }
+                else
+                {
+                    await ShowMessageAsync(
+                        $"Manual Action Required for \"{item.Name}\"",
+                        $"Error: {ex.Message}\n\nThe official download page has been opened in your default browser. Please save the file into:\n\n{AppFileSystem.GetInstallDirectory(item)}");
+                }
+                return null;
+            }
+        }
+
+        private async Task ShowMessageAsync(string title, string message)
+        {
+            var dialog = new MessageDialog(title, message);
+            await dialog.ShowDialog(this);
+        }
+    }
+}

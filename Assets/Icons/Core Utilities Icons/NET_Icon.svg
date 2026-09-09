@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 33 82 34">
+  <g fill="#fff">
+    <!-- Dot -->
+    <path d="M 10 58 H 16 V 65 H 10 Z"/>
+    <!-- N -->
+    <path d="M 21 35 H 26.5 L 37.5 56.5 V 35 H 43 V 65 H 37.5 L 26.5 43.5 V 65 H 21 Z"/>
+    <!-- E -->
+    <path d="M 48 35 H 65 V 40.5 H 53.5 V 47.2 H 63.5 V 52.7 H 53.5 V 59.5 H 65 V 65 H 48 Z"/>
+    <!-- T -->
+    <path d="M 68 35 H 88 V 40.5 H 81 V 65 H 75 V 40.5 H 68 Z"/>
+  </g>
+</svg>

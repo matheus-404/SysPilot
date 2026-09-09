@@ -1,0 +1,91 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:SysPilot.Converters"
+        xmlns:local="clr-namespace:SysPilot"
+        x:Class="SysPilot.MessageDialog"
+        x:CompileBindings="True"
+        x:DataType="local:MessageDialog"
+        Width="420"
+        SizeToContent="Height"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="32"
+        WindowDecorations="BorderOnly"
+        Background="#202020">
+
+    <Window.Resources>
+        <converters:SvgAssetValueConverter x:Key="SvgConverter"/>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="TextBox.plain">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="SelectionBrush" Value="#0078D4"/>
+        </Style>
+        <Style Selector="TextBox.plain:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style Selector="TextBox.plain:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.dialogButton">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="BorderBrush" Value="#454545"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Padding" Value="20,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+        </Style>
+        <Style Selector="Button.dialogButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#3D3D3D"/>
+            <Setter Property="BorderBrush" Value="#505050"/>
+        </Style>
+        <Style Selector="Button.dialogButton:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#2A2A2A"/>
+        </Style>
+
+        <Style Selector="Button.captionBtn">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+        </Style>
+        <Style Selector="Button.captionBtnClose:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#C42B1C"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.captionBtnClose:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#B22415"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="32,Auto,Auto,Auto">
+        <!-- Title Bar Container -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+            <Border Grid.Column="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+            <Button Grid.Column="1" Classes="captionBtn captionBtnClose" Click="OkButton_Click" ToolTip.Tip="Close">
+                <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Close.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto" Margin="24,12,24,20">
+            <TextBlock x:Name="TitleText" Grid.Row="0" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" TextWrapping="Wrap" Margin="0,0,0,12"/>
+            <TextBox x:Name="MessageText" Grid.Row="1" Classes="plain" FontSize="13" Foreground="#CCCCCC" Background="Transparent" BorderThickness="0" Padding="0" AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap" Margin="0,0,0,24"/>
+            <Button Grid.Row="2" Classes="dialogButton" Content="OK" Click="OkButton_Click" HorizontalAlignment="Right"/>
+        </Grid>
+    </Grid>
+</Window>
