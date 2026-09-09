@@ -1,0 +1,167 @@
+{
+  "catalogVersion": 1,
+  "categories": [
+    {
+      "name": "System Tweaks",
+      "tag": "SystemTweaks",
+      "items": [
+        {
+          "name": "Process Explorer",
+          "iconPath": "avares://SysPilot/Assets/Icons/System Tweaks Icons/ProcessExplorer_Icon.svg",
+          "downloadUrl": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+          "downloadExtension": ".zip"
+        },
+        {
+          "name": "Serviwin",
+          "iconPath": "avares://SysPilot/Assets/Icons/System Tweaks Icons/Serviwin_Icon.svg",
+          "downloadUrl": "https://www.nirsoft.net/utils/serviwin.zip",
+          "downloadExtension": ".zip"
+        },
+        {
+          "name": "Autoruns",
+          "iconPath": "avares://SysPilot/Assets/Icons/System Tweaks Icons/Autoruns_Icon.svg",
+          "downloadUrl": "https://download.sysinternals.com/files/Autoruns.zip",
+          "downloadExtension": ".zip"
+        },
+        {
+          "name": "BCUninstaller",
+          "iconPath": "avares://SysPilot/Assets/Icons/System Tweaks Icons/BCUninstaller_Icon.svg",
+          "downloadUrl": "https://github.com/BCUninstaller/Bulk-Crap-Uninstaller/releases/download/v6.2/BCUninstaller_6.2.0_portable.zip",
+          "downloadExtension": ".zip"
+        },
+        {
+          "name": "Defender Remover",
+          "iconPath": "avares://SysPilot/Assets/Icons/System Tweaks Icons/DefenderRemover_Icon.svg",
+          "downloadUrl": "https://github.com/ionuttbara/windows-defender-remover/archive/refs/tags/release13-rev1.zip",
+          "downloadExtension": ".zip"
+        }
+      ]
+    },
+    {
+      "name": "GPU & Display",
+      "tag": "GpuDisplay",
+      "items": [
+        {
+          "name": "DDU",
+          "iconPath": "avares://SysPilot/Assets/Icons/GPU & Display Icons/DDU_Icon.svg",
+          "downloadUrl": "https://download.wagnardsoft.com/DDU/DDU%20v18.1.5.7.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "NVCleanstall",
+          "iconPath": "avares://SysPilot/Assets/Icons/GPU & Display Icons/NVCleanstall_Icon.svg",
+          "downloadUrl": "https://www.techpowerup.com/download/techpowerup-nvcleanstall/",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "Radeon Software Slimmer",
+          "iconPath": "avares://SysPilot/Assets/Icons/GPU & Display Icons/Radeon_Slimmer_Icon.svg",
+          "downloadUrl": "https://github.com/GSDragoon/RadeonSoftwareSlimmer/releases/download/1.12.0/RadeonSoftwareSlimmer_1.12.0_net90.zip",
+          "downloadExtension": ".zip"
+        },
+        {
+          "name": "MSI Afterburner",
+          "iconPath": "avares://SysPilot/Assets/Icons/GPU & Display Icons/MSI_Afterburner_Icon.svg",
+          "downloadUrl": "https://download.msi.com/uti_exe/vga/MSIAfterburnerSetup.zip",
+          "downloadExtension": ".zip"
+        },
+        {
+          "name": "CRU",
+          "iconPath": "avares://SysPilot/Assets/Icons/GPU & Display Icons/CRU_Icon.svg",
+          "downloadUrl": "https://www.monitortests.com/download/cru/cru-1.5.3.zip",
+          "downloadExtension": ".zip"
+        }
+      ]
+    },
+    {
+      "name": "Core Utilities",
+      "tag": "CoreUtilities",
+      "items": [
+        {
+          "name": "7-Zip",
+          "iconPath": "avares://SysPilot/Assets/Icons/Core Utilities Icons/7-Zip_Icon.svg",
+          "downloadUrl": "https://github.com/ip7z/7zip/releases/download/26.02/7z2602-x64.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "VC++ AiO Redist.",
+          "iconPath": "avares://SysPilot/Assets/Icons/Core Utilities Icons/Visual_Studio_Icon_2026.svg",
+          "downloadUrl": "https://github.com/abbodi1406/vcredist/releases/download/v0.105.0/VisualCppRedist_AIO_x86_x64.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": ".NET",
+          "iconPath": "avares://SysPilot/Assets/Icons/Core Utilities Icons/NET_Icon.svg",
+          "downloadUrl": "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.400/dotnet-sdk-10.0.400-win-x64.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "DirectX End-User Runtime Web Installer",
+          "iconPath": "avares://SysPilot/Assets/Icons/Core Utilities Icons/DirectX_Icon.svg",
+          "downloadUrl": "https://download.microsoft.com/download/1/7/1/1718ccc4-6315-4d8e-9543-8e28a4e18c4c/dxwebsetup.exe",
+          "downloadExtension": ".exe"
+        }
+      ]
+    },
+    {
+      "name": "Apps",
+      "tag": "Apps",
+      "items": [
+        {
+          "name": "Firefox",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/Firefox_Icon.svg",
+          "downloadUrl": "https://download.mozilla.org/?product=firefox-stub&os=win&lang=en-US",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "LibreWolf",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/LibreWolf_Icon.svg",
+          "downloadUrl": "https://dl.librewolf.net/librewolf/154.0.1-3/librewolf-154.0.1-3-windows-x86_64-setup.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "VLC",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/VLC_Icon.svg",
+          "downloadUrl": "https://get.videolan.org/vlc/3.0.23/win32/vlc-3.0.23-win32.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "qView",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/qView_Icon.svg",
+          "downloadUrl": "https://github.com/jurplel/qView/releases/download/7.1/qView-7.1-win64.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "Spotify",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/Spotify_Icon.svg",
+          "downloadUrl": "https://download.scdn.co/SpotifySetup.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "Steam",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/Steam_Icon.svg",
+          "downloadUrl": "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "Epic Games",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/Epic_Games_Icon.svg",
+          "downloadUrl": "https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.exe",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "Discord",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/Discord_Icon.svg",
+          "downloadUrl": "https://discord.com/api/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x64",
+          "downloadExtension": ".exe"
+        },
+        {
+          "name": "LibreOffice",
+          "iconPath": "avares://SysPilot/Assets/Icons/Apps Icons/LibreOffice_Icon.svg",
+          "downloadUrl": "https://download.documentfoundation.org/libreoffice/stable/26.8.0/win/x86_64/LibreOffice_26.8.0_Win_x86-64.msi",
+          "downloadExtension": ".msi"
+        }
+      ]
+    }
+  ]
+}
