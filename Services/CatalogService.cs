@@ -11,7 +11,7 @@ namespace SysPilot.Services;
 public sealed class CatalogService
 {
     private const string RemoteCatalogUrl =
-        "https://raw.githubusercontent.com/matheus-404/SysPilot/main/Catalog/catalog.json";
+        "https://raw.githubusercontent.com/matheus-404/SysPilot/master/Catalog/catalog.json";
 
     private readonly HttpClient _httpClient;
 
@@ -49,8 +49,11 @@ public sealed class CatalogService
     {
         try
         {
+            var cacheBustedUrl =
+                $"{RemoteCatalogUrl}?t={DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
+
             using var response = await _httpClient.GetAsync(
-                RemoteCatalogUrl,
+                cacheBustedUrl,
                 cancellationToken);
 
             response.EnsureSuccessStatusCode();
@@ -67,8 +70,11 @@ public sealed class CatalogService
 
             return ValidateCatalog(catalog);
         }
-        catch
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine(
+                $"Remote catalog failed: {ex}");
+
             return null;
         }
     }
