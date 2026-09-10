@@ -87,7 +87,7 @@ Essential runtimes and file managers:
 1. Go to the [Releases](https://github.com/matheus-404/SysPilot/releases) page.
 2. Download the latest `SysPilot-Setup.exe` (packaged via Velopack).
 3. Run the application (Administrative privileges may be requested for core tweaking tools).
-4. Navigate the sidebar categories (Apps, Monitor, Toolbox, Wrench) to install or launch your desired applications.
+4. Navigate the sidebar categories (System Tweaks, GPU & Display, Core Utilities, Apps) to install or launch your desired applications.
 
 ---
 
