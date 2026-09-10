@@ -18,6 +18,7 @@ namespace SysPilot
     {
         private List<AppCategory> _categories = new();
 
+        private readonly AppUpdateService _updateService = new();
         private readonly AppDownloadService _downloadService = new();
         private readonly AppLaunchService _launchService;
         private readonly CatalogService _catalogService = new();
@@ -62,6 +63,7 @@ namespace SysPilot
             Opened += async (_, _) =>
             {
                 await InitializeCatalogAsync();
+                _ = _updateService.CheckDownloadAndApplyAsync();
             };
         }
 
@@ -84,7 +86,6 @@ namespace SysPilot
             _categories =
                 CatalogMapper.Map(remoteCatalog);
 
-            // Select the first category after the catalog has loaded.
             if (NavList.Items.Count > 0 &&
                 NavList.Items[0] is ListBoxItem firstItem)
             {
@@ -228,11 +229,28 @@ namespace SysPilot
             }
         }
 
-        private void CheckForUpdatesButton_Click(
+        private async void CheckForUpdatesButton_Click(
             object? sender,
             RoutedEventArgs e)
         {
-            // Velopack update implementation will go here later.
+            try
+            {
+                var updated = await _updateService.CheckDownloadAndApplyAsync();
+
+                if (!updated)
+                {
+                    await ShowMessageAsync(
+                        "No Updates",
+                        "You're already running the latest version of SysPilot.");
+                }
+                // If updated == true, the app restarts itself — this code won't be reached.
+            }
+            catch (Exception ex)
+            {
+                await ShowMessageAsync(
+                    "Update Check Failed",
+                    $"Could not check for updates: {ex.Message}");
+            }
         }
 
         private async void LaunchButton_Click(
