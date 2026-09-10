@@ -113,19 +113,6 @@ namespace SysPilot
 
         #region Custom Title Bar & Caption Controls
 
-        private void TitleBar_PointerPressed(
-            object? sender,
-            PointerPressedEventArgs e)
-        {
-            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-            {
-                if (e.ClickCount == 2)
-                    ToggleMaximize();
-                else
-                    BeginMoveDrag(e);
-            }
-        }
-
         private void MinimizeButton_Click(
             object? sender,
             RoutedEventArgs e)

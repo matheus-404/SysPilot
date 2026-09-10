@@ -15,7 +15,7 @@
         Background="#202020"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="32"
-        WindowDecorations="BorderOnly"
+        WindowDecorations="None"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -134,7 +134,9 @@
     <Grid ColumnDefinitions="220,*">
         <!-- Navigation Pane -->
         <Grid Grid.Column="0" Background="#181818" RowDefinitions="32,64,*,Auto">
-            <Border Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
+            <Border Grid.Row="0"
+                    Background="Transparent"
+                    WindowDecorationProperties.ElementRole="TitleBar"/>
 
             <TextBlock Grid.Row="1" Text="SysPilot" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="20,0,0,0"/>
 
@@ -177,16 +179,31 @@
 
         <!-- Main Content Region -->
         <Grid Grid.Column="1" RowDefinitions="32,64,*">
-            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
-                <Border Grid.Column="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Classes="captionBtn" Click="MinimizeButton_Click" ToolTip.Tip="Minimize">
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,Auto"
+                  WindowDecorationProperties.ElementRole="TitleBar">
+                <Border Grid.Column="0"
+                        Background="Transparent"/>
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            Margin="0,-1,0,0">
+                    <Button Classes="captionBtn"
+                            WindowDecorationProperties.ElementRole="User"
+                            Click="MinimizeButton_Click"
+                            ToolTip.Tip="Minimize">
                         <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Minimize.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
                     </Button>
-                    <Button Classes="captionBtn" Click="MaximizeButton_Click" ToolTip.Tip="Maximize">
+                    <Button Classes="captionBtn"
+                            WindowDecorationProperties.ElementRole="User"
+                            Click="MaximizeButton_Click"
+                            ToolTip.Tip="Maximize">
                         <Image x:Name="MaximizeIconImage" Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Maximize.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
                     </Button>
-                    <Button Classes="captionBtn captionBtnClose" Click="CloseButton_Click" ToolTip.Tip="Close">
+                    <Button Classes="captionBtn captionBtnClose"
+                            WindowDecorationProperties.ElementRole="User"
+                            Click="CloseButton_Click"
+                            ToolTip.Tip="Close">
                         <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Close.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
                     </Button>
                 </StackPanel>
