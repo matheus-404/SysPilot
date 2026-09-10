@@ -3,10 +3,10 @@ name: Release
 on:
   push:
     tags:
-      - "v*.*.*"   # push a tag like v1.0.0 to trigger a release
+      - "v*.*.*"
 
 permissions:
-  contents: write   # needed so vpk can create/upload the GitHub Release
+  contents: write
 
 jobs:
   build-and-release:
