@@ -2,7 +2,7 @@
 
 ![Platform](https://img.shields.io/badge/Platform-Windows-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![Release](https://img.shields.io/github/v/release/matheus-404/SysPilot?include_prereleases)
 
 **SysPilot** is an advanced, all-in-one system management, tweaking, and deployment hub designed for power users and IT professionals. Built with C# and Avalonia UI, SysPilot provides a seamless, unified interface to download, launch, and update essential applications, core utilities, and powerful system configuration tools. 
@@ -93,4 +93,4 @@ Essential runtimes and file managers:
 
 ## 📄 License
 
-This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 - see the [LICENSE.txt](LICENSE.txt) file for details.
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.txt](LICENSE.txt) file for details.
