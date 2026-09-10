@@ -18,10 +18,10 @@ namespace SysPilot
     {
         private List<AppCategory> _categories = new();
 
-        private readonly AppUpdateService _updateService = new();
         private readonly AppDownloadService _downloadService = new();
         private readonly AppLaunchService _launchService;
         private readonly CatalogService _catalogService = new();
+        private readonly AppUpdateService _updateService = new();
 
         private readonly IImage _maximizeIconAsset;
         private readonly IImage _restoreIconAsset;
@@ -29,6 +29,11 @@ namespace SysPilot
         public MainWindow()
         {
             InitializeComponent();
+
+            if (!Design.IsDesignMode)
+            {
+                _updateService = new AppUpdateService();
+            }
 
             _launchService = new AppLaunchService();
 
@@ -63,7 +68,17 @@ namespace SysPilot
             Opened += async (_, _) =>
             {
                 await InitializeCatalogAsync();
-                _ = _updateService.CheckDownloadAndApplyAsync();
+
+                try
+                {
+                    _ = await _updateService.CheckDownloadAndApplyAsync();
+                    // If an update was found, the app restarts itself and this line never runs.
+                    // If no update, execution just continues normally — no dialog shown.
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Startup update check failed: {ex}");
+                }
             };
         }
 
@@ -86,6 +101,7 @@ namespace SysPilot
             _categories =
                 CatalogMapper.Map(remoteCatalog);
 
+            // Select the first category after the catalog has loaded.
             if (NavList.Items.Count > 0 &&
                 NavList.Items[0] is ListBoxItem firstItem)
             {
