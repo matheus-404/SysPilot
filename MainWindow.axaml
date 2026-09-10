@@ -136,7 +136,7 @@
         <Grid Grid.Column="0" Background="#181818" RowDefinitions="32,64,*,Auto">
             <Border Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed"/>
 
-            <TextBlock Grid.Row="1" Text="SysPilot_" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            <TextBlock Grid.Row="1" Text="SysPilot" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="20,0,0,0"/>
 
             <ListBox Grid.Row="2" x:Name="NavList" Background="Transparent" BorderThickness="0" SelectionChanged="NavList_SelectionChanged">
                 <ListBoxItem Classes="navItem" Tag="SystemTweaks">
