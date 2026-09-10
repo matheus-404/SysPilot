@@ -62,8 +62,11 @@ namespace SysPilot
                 if (e.Property == WindowStateProperty)
                 {
                     UpdateMaximizeIcon();
+                    UpdateResizeGripsEnabled();
                 }
             };
+
+            AttachResizeGrips();
 
             Opened += async (_, _) =>
             {
@@ -148,6 +151,57 @@ namespace SysPilot
                 WindowState == WindowState.Maximized
                     ? _restoreIconAsset
                     : _maximizeIconAsset;
+        }
+
+        #endregion
+
+        #region Manual Resize Grips
+
+        private readonly List<Border> _resizeGrips = new();
+
+        private void AttachResizeGrips()
+        {
+            AttachResizeGrip("ResizeTop", WindowEdge.North);
+            AttachResizeGrip("ResizeBottom", WindowEdge.South);
+            AttachResizeGrip("ResizeLeft", WindowEdge.West);
+            AttachResizeGrip("ResizeRight", WindowEdge.East);
+            AttachResizeGrip("ResizeTopLeft", WindowEdge.NorthWest);
+            AttachResizeGrip("ResizeTopRight", WindowEdge.NorthEast);
+            AttachResizeGrip("ResizeBottomLeft", WindowEdge.SouthWest);
+            AttachResizeGrip("ResizeBottomRight", WindowEdge.SouthEast);
+
+            UpdateResizeGripsEnabled();
+        }
+
+        private void AttachResizeGrip(string name, WindowEdge edge)
+        {
+            var grip = this.FindControl<Border>(name);
+
+            if (grip is null)
+                return;
+
+            _resizeGrips.Add(grip);
+
+            grip.PointerPressed += (_, e) =>
+            {
+                if (WindowState == WindowState.Maximized)
+                    return;
+
+                if (e.GetCurrentPoint(grip).Properties.IsLeftButtonPressed)
+                {
+                    BeginResizeDrag(edge, e);
+                }
+            };
+        }
+
+        private void UpdateResizeGripsEnabled()
+        {
+            var enabled = WindowState != WindowState.Maximized;
+
+            foreach (var grip in _resizeGrips)
+            {
+                grip.IsHitTestVisible = enabled;
+            }
         }
 
         #endregion

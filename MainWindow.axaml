@@ -10,8 +10,9 @@
         x:CompileBindings="True"
         x:DataType="local:MainWindow"
         Title="SysPilot"
-        Width="820" Height="670"
-        MinWidth="820" MinHeight="670"
+        Width="820" Height="680"
+        MinWidth="820" MinHeight="680"
+        CanResize="True"
         Background="#202020"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="32"
@@ -131,6 +132,7 @@
         </Style>
     </Window.Styles>
 
+    <Panel>
     <Grid ColumnDefinitions="220,*">
         <!-- Navigation Pane -->
         <Grid Grid.Column="0" Background="#181818" RowDefinitions="32,64,*,Auto">
@@ -189,19 +191,19 @@
                             VerticalAlignment="Top"
                             Margin="0,-1,0,0">
                     <Button Classes="captionBtn"
-                            WindowDecorationProperties.ElementRole="User"
+                            WindowDecorationProperties.ElementRole="MinimizeButton"
                             Click="MinimizeButton_Click"
                             ToolTip.Tip="Minimize">
                         <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Minimize.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
                     </Button>
                     <Button Classes="captionBtn"
-                            WindowDecorationProperties.ElementRole="User"
+                            WindowDecorationProperties.ElementRole="MaximizeButton"
                             Click="MaximizeButton_Click"
                             ToolTip.Tip="Maximize">
                         <Image x:Name="MaximizeIconImage" Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Maximize.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
                     </Button>
                     <Button Classes="captionBtn captionBtnClose"
-                            WindowDecorationProperties.ElementRole="User"
+                            WindowDecorationProperties.ElementRole="CloseButton"
                             Click="CloseButton_Click"
                             ToolTip.Tip="Close">
                         <Image Source="{Binding Source='avares://SysPilot/Assets/Icons/Window Controls Icons/Close.svg', Converter={StaticResource SvgConverter}}" Width="10" Height="10"/>
@@ -239,4 +241,14 @@
             </ScrollViewer>
         </Grid>
     </Grid>
+        <Border Name="ResizeTop" Height="4" VerticalAlignment="Top" Background="Transparent" Cursor="SizeNorthSouth"/>
+        <Border Name="ResizeBottom" Height="4" VerticalAlignment="Bottom" Background="Transparent" Cursor="SizeNorthSouth"/>
+        <Border Name="ResizeLeft" Width="4" HorizontalAlignment="Left" Background="Transparent" Cursor="SizeWestEast"/>
+        <Border Name="ResizeRight" Width="4" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWestEast"/>
+
+        <Border Name="ResizeTopLeft" Width="6" Height="6" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" Cursor="TopLeftCorner"/>
+        <Border Name="ResizeTopRight" Width="6" Height="6" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent" Cursor="TopRightCorner"/>
+        <Border Name="ResizeBottomLeft" Width="6" Height="6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="Transparent" Cursor="BottomLeftCorner"/>
+        <Border Name="ResizeBottomRight" Width="6" Height="6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Transparent" Cursor="BottomRightCorner"/>
+    </Panel>
 </Window>
